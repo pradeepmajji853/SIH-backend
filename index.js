@@ -1,4 +1,3 @@
-
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -6,10 +5,10 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-
 app.use(cors());
 app.use(bodyParser.json());
 
+const MONGODB_URI = process.env.MONGODB_URI; // Ensure this is correctly placed here
 
 mongoose
   .connect(MONGODB_URI)
@@ -27,7 +26,7 @@ const encryptedDataSchema = new mongoose.Schema({
 const EncryptedData = mongoose.model('EncryptedData', encryptedDataSchema);
 
 app.post('/encrypt', async (req, res) => {
-    console.log("post request recieved")
+  console.log("post request received");
   const { text, algorithm, cipherText, generatedPassword } = req.body;
 
   if (!text || !algorithm || !cipherText || !generatedPassword) {
@@ -49,9 +48,8 @@ app.post('/encrypt', async (req, res) => {
   }
 });
 
-
-const MONGODB_URI = process.env.MONGODB_URI;
-const PORT = process.env.PORT || 5000; 
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
